@@ -1,0 +1,65 @@
+--- a/.platformio/packages/framework-arduinoteensy/cores/teensy4/usb.c	2020-07-01 12:30:19.000000000 +0100
++++ b/.platformio/packages/framework-arduinoteensy/cores/teensy4/usb.c	2021-09-17 12:29:10.548405500 +0100
+@@ -15,6 +15,23 @@
+ #include "avr/pgmspace.h"
+ #include <string.h>
+ #include "debug/printf.h"
++//	  05/25/2020, 8/22/2020
++//
++//	  Modified by R Bull , replace global IRQ enable/disable with
++//	  like this:
++//			  __disable_irq();
++//			  NVIC_DISABLE_IRQ(IRQ_USB1);   //  RB 05/25/2020
++//										    //  helped a lot, but still have serial-via-usb input errors  8/22/2020
++//			  ebtks_disable_irq();		  //  PMF another attempt 8/22/2020 , using ebtks DMA mode to provide __disable_irq() synchronously
++//										    //  This did now work any better, so went back to NVIC_DISABLE_IRQ(IRQ_USB1) solution
++//	  and
++//
++//			  __enable_irq();
++//			  NVIC_ENABLE_IRQ(IRQ_USB1);    //  RB 05/25/2020
++//										    //  helped a lot, but still have serial-via-usb input errors  8/22/2020
++//			  ebtks_enable_irq();		   //  PMF another attempt 8/22/2020 , using ebtks DMA mode to provide __enable_irq() synchronously
++//										    //  This did now work any better, so went back to NVIC_ENABLE_IRQ(IRQ_USB1) solution
++//
+ 
+ //#define LOG_SIZE  20
+ //uint32_t transfer_log_head=0;
+@@ -349,14 +366,16 @@
+ 
+ void usb_start_sof_interrupts(int interface)
+ {
+-	__disable_irq();
++	//__disable_irq();			    //  PMF/RB
++	NVIC_DISABLE_IRQ(IRQ_USB1);	   //  PMF/RB
+ 	sof_usage |= (1 << interface);
+ 	uint32_t intr = USB1_USBINTR;
+ 	if (!(intr & USB_USBINTR_SRE)) {
+ 		USB1_USBSTS = USB_USBSTS_SRI; // clear prior SOF before SOF IRQ enable
+ 		USB1_USBINTR = intr | USB_USBINTR_SRE;
+ 	}
+-	__enable_irq();
++	//__enable_irq();				 //  PMF/RB
++	NVIC_ENABLE_IRQ(IRQ_USB1);	    //  PMF/RB
+ }
+ 
+ void usb_stop_sof_interrupts(int interface)
+@@ -864,7 +883,8 @@
+ 	if (endpoint->callback_function) {
+ 		transfer->status |= (1<<15);
+ 	}
+-	__disable_irq();
++	//__disable_irq();			    //  PMF/RB
++	NVIC_DISABLE_IRQ(IRQ_USB1);	   //  PMF/RB
+ 	//digitalWriteFast(1, HIGH);
+ 	// Executing A Transfer Descriptor, page 2468 (RT1060 manual, Rev 1, 12/2018)
+ 	transfer_t *last = endpoint->last_transfer;
+@@ -889,7 +909,8 @@
+ 	endpoint->first_transfer = transfer;
+ end:
+ 	endpoint->last_transfer = transfer;
+-	__enable_irq();
++	//__enable_irq();				 //  PMF/RB
++	NVIC_ENABLE_IRQ(IRQ_USB1);	    //  PMF/RB
+ 	//digitalWriteFast(4, LOW);
+ 	//digitalWriteFast(3, LOW);
+ 	//digitalWriteFast(2, LOW);
