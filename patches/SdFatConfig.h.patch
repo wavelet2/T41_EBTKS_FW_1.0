@@ -1,0 +1,11 @@
+--- a/.pio/libdeps/teensy41/SdFat/src/SdFatConfig.h	2021-09-17 12:19:23.585693020 +0100
++++ b/.pio/libdeps/teensy41/SdFat/src/SdFatConfig.h	2021-09-15 11:06:42.383964700 +0100
+@@ -75,7 +75,7 @@
+ #define SDFAT_FILE_TYPE 1
+ #elif defined(__arm__)
+ // ARM boards usually have plenty of memory
+-#define SDFAT_FILE_TYPE 3
++#define SDFAT_FILE_TYPE 1	 // PMF and RB was 3, but caused library problems like can't find isReadOnly()
+ #else  // defined(__AVR__) && FLASHEND < 0X8000
+ // All other boards.
+ #define SDFAT_FILE_TYPE 1

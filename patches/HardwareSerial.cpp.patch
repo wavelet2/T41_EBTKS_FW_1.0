@@ -1,0 +1,87 @@
+--- a/.platformio/packages/framework-arduinoteensy/cores/teensy4/HardwareSerial.cpp	2020-07-01 12:30:19.000000000 +0100
++++ b/.platformio/packages/framework-arduinoteensy/cores/teensy4/HardwareSerial.cpp	2021-09-15 11:01:38.846818600 +0100
+@@ -401,14 +401,16 @@
+ 	uint32_t head, tail;
+ 
+ 	// WATER> 0 so IDLE involved may want to check if port has already has RX data to retrieve
+-	__disable_irq();
++	//__disable_irq();
++	NVIC_DISABLE_IRQ(hardware->irq);
+ 	head = rx_buffer_head_;
+ 	tail = rx_buffer_tail_;
+ 	int avail;
+ 	if (head >= tail) avail = head - tail;
+ 	else avail = rx_buffer_total_size_ + head - tail;	
+ 	avail += (port->WATER >> 24) & 0x7;
+-	__enable_irq();
++	//__enable_irq();
++	NVIC_ENABLE_IRQ(hardware->irq);
+ 	return avail;
+ }
+ 
+@@ -442,7 +444,8 @@
+ 	head = rx_buffer_head_;
+ 	tail = rx_buffer_tail_;
+ 	if (head == tail) {
+-		__disable_irq();
++		//__disable_irq();
++		NVIC_DISABLE_IRQ(hardware->irq);
+ 		head = rx_buffer_head_;  // reread head to make sure no ISR happened
+ 		if (head == tail) {
+ 			// Still empty Now check for stuff in FIFO Queue.
+@@ -455,10 +458,12 @@
+ 				rx_buffer_tail_ = 0; 
+ 				rx_buffer_[1] = c;
+ 			}
+-			__enable_irq();
++			//__enable_irq();
++			NVIC_ENABLE_IRQ(hardware->irq);
+ 			return c;
+ 		}
+-		__enable_irq();
++		//__enable_irq();
++		NVIC_ENABLE_IRQ(hardware->irq);
+ 
+ 	} 
+ 	if (++tail >= rx_buffer_total_size_) tail = 0;
+@@ -477,7 +482,8 @@
+ 	head = rx_buffer_head_;
+ 	tail = rx_buffer_tail_;
+ 	if (head == tail) {
+-		__disable_irq();
++		//__disable_irq();
++		NVIC_DISABLE_IRQ(hardware->irq);
+ 		head = rx_buffer_head_;  // reread head to make sure no ISR happened
+ 		if (head == tail) {
+ 			// Still empty Now check for stuff in FIFO Queue.
+@@ -485,10 +491,12 @@
+ 			if (port->WATER & 0x7000000) {
+ 				c = port->DATA & 0x3ff;		// Use only up to 10 bits of data
+ 			}
+-			__enable_irq();
++			//__enable_irq();
++			NVIC_ENABLE_IRQ(hardware->irq);
+ 			return c;
+ 		}
+-		__enable_irq();
++		//__enable_irq();
++		NVIC_ENABLE_IRQ(hardware->irq);
+ 
+ 	}
+ 	if (++tail >= rx_buffer_total_size_) tail = 0;
+@@ -553,11 +561,13 @@
+ 	} else {
+ 		tx_buffer_storage_[head - tx_buffer_size_] = c;
+ 	}
+-	__disable_irq();
++	//__disable_irq();
++	NVIC_DISABLE_IRQ(hardware->irq);
+ 	transmitting_ = 1;
+ 	tx_buffer_head_ = head;
+ 	port->CTRL |= LPUART_CTRL_TIE; // (may need to handle this issue)BITBAND_SET_BIT(LPUART0_CTRL, TIE_BIT);
+-	__enable_irq();
++	//__enable_irq();
++	NVIC_ENABLE_IRQ(hardware->irq);
+ 	//digitalWrite(3, LOW);
+ 	return 1;
+ }
