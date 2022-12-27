@@ -38,8 +38,8 @@ The EBTKS firmware requires some patches to be applied to the files downloaded i
 ```console
 $ pushd ~
 $ patch -p1 < EBTKS_FW/patches/usb.c.patch
-$ patch -p1 < EBTKS_FW/patches/ehci.c.patch
-$ patch -p1 < EBTKS_FW/patches/HardwareSerial.c.patch
+$ patch -p1 < EBTKS_FW/patches/ehci.cpp.patch
+$ patch -p1 < EBTKS_FW/patches/HardwareSerial.cpp.patch
 $ patch -p1 < EBTKS_FW/patches/imxrt1062_t41.ld.patch
 $ popd
 $ patch -p1 < patches/SdFatConfig.h.patch
