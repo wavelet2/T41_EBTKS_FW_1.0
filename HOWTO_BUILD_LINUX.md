@@ -91,8 +91,8 @@ Now we must download the various libraries and packages used by the source code.
 The EBTKS firmware requires some patches to be applied to the files downloaded in the previous step.  Patch files are provided in the "patches" folder of the project to automate this step.  To apply the patches, execute the following commands:
 ```console
 $ patch -p1 < Documents/PlatformIO/Projects/EBTKS_FW/patches/usb.c.patch
-$ patch -p1 < Documents/PlatformIO/Projects/EBTKS_FW/patches/ehci.c.patch
-$ patch -p1 < Documents/PlatformIO/Projects/EBTKS_FW/patches/HardwareSerial.c.patch
+$ patch -p1 < Documents/PlatformIO/Projects/EBTKS_FW/patches/ehci.cpp.patch
+$ patch -p1 < Documents/PlatformIO/Projects/EBTKS_FW/patches/HardwareSerial.cpp.patch
 $ patch -p1 < Documents/PlatformIO/Projects/EBTKS_FW/patches/imxrt1062_t41.ld.patch
 $ cd Documents/PlatformIO/Projects/EBTKS_FW
 $ patch -p1 < patches/SdFatConfig.h.patch
