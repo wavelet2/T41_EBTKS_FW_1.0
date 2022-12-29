@@ -1,5 +1,5 @@
---- a/.platformio/packages/framework-arduinoteensy/cores/teensy4/imxrt1062_t41.ld	2020-07-01 12:30:19.000000000 +0100
-+++ b/.platformio/packages/framework-arduinoteensy/cores/teensy4/imxrt1062_t41.ld	2021-09-15 16:13:11.769501800 +0100
+--- a/imxrt1062_t41.ld	2020-07-01 12:30:19.000000000 +0100
++++ b/imxrt1062_t41.ld	2021-09-15 16:13:11.769501800 +0100
 @@ -85,6 +85,8 @@
  	_heap_start = ADDR(.bss.dma) + SIZEOF(.bss.dma);
  	_heap_end = ORIGIN(RAM) + LENGTH(RAM);

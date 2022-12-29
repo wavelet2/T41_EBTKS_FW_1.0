@@ -1,5 +1,5 @@
---- a/.platformio/packages/framework-arduinoteensy/cores/teensy4/HardwareSerial.cpp	2020-07-01 12:30:19.000000000 +0100
-+++ b/.platformio/packages/framework-arduinoteensy/cores/teensy4/HardwareSerial.cpp	2021-09-15 11:01:38.846818600 +0100
+--- a/HardwareSerial.cpp	2020-07-01 12:30:19.000000000 +0100
++++ b/HardwareSerial.cpp	2021-09-15 11:01:38.846818600 +0100
 @@ -401,14 +401,16 @@
  	uint32_t head, tail;
  

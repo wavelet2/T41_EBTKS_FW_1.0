@@ -1,5 +1,5 @@
---- a/.platformio/packages/framework-arduinoteensy/cores/teensy4/usb.c	2020-07-01 12:30:19.000000000 +0100
-+++ b/.platformio/packages/framework-arduinoteensy/cores/teensy4/usb.c	2021-09-17 12:29:10.548405500 +0100
+--- a/usb.c	2020-07-01 12:30:19.000000000 +0100
++++ b/usb.c	2021-09-17 12:29:10.548405500 +0100
 @@ -15,6 +15,23 @@
  #include "avr/pgmspace.h"
  #include <string.h>

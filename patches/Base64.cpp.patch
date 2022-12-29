@@ -1,5 +1,5 @@
---- a/.pio/libdeps/teensy41/Base64/src/Base64.cpp	2020-01-20 13:48:07.000000000 +0000
-+++ b/.pio/libdeps/teensy41/Base64/src/Base64.cpp	2021-09-15 11:10:00.991033100 +0100
+--- a/Base64.cpp	2020-01-20 13:48:07.000000000 +0000
++++ b/Base64.cpp	2021-09-15 11:10:00.991033100 +0100
 @@ -59,7 +59,7 @@
  int Base64Class::decode(char * output, char * input, int inputLength) {
  	int i = 0, j = 0;
