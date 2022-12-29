@@ -1,5 +1,5 @@
---- a/.platformio/packages/framework-arduinoteensy/libraries/USBHost_t36/ehci.cpp	2020-07-01 12:30:23.000000000 +0100
-+++ b/.platformio/packages/framework-arduinoteensy/libraries/USBHost_t36/ehci.cpp	2021-09-15 10:56:53.192735700 +0100
+--- a/ehci.cpp	2020-07-01 12:30:23.000000000 +0100
++++ b/ehci.cpp	2021-09-15 10:56:53.192735700 +0100
 @@ -477,7 +477,8 @@
  	//USBHDBGSerial.println(remain);
  	if (microseconds < remain) {
