@@ -87,5 +87,5 @@ if not isfile(doneflag_file):
 
 # 7th patch - disable .platformio\packages\framework-arduinoteensy\libraries\Time\Time.h
 file_to_disable = join(TIME_DIR, "Time.h")
-if not isfile(file_to_disable):
+if isfile(file_to_disable):
     rename (file_to_disable, file_to_disable + "___DISABLED")
