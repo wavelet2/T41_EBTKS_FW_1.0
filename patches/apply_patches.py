@@ -1,4 +1,4 @@
-from os import getcwd, system
+from os import getcwd, rename
 from os.path import join, isfile
 import subprocess
 
@@ -13,6 +13,7 @@ PATCH_PROG = join(getcwd(), "patches", "patch.py")
 FRAMEWORK_DIR = env.PioPlatform().get_package_dir("framework-arduinoteensy")
 TEENSY4_DIR = join(FRAMEWORK_DIR, "cores", "teensy4")
 USBHOST_DIR = join(FRAMEWORK_DIR, "libraries", "USBHost_t36")
+TIME_DIR    = join(FRAMEWORK_DIR, "libraries", "Time")
 SDFAT_DIR   = join(getcwd(), ".pio", "libdeps", "teensy41", "SdFat", "src")
 BASE64_DIR  = join(getcwd(), ".pio", "libdeps", "teensy41", "Base64", "src")
 
@@ -83,3 +84,8 @@ if not isfile(doneflag_file):
     p = subprocess.Popen(["python", PATCH_PROG, patch_file], cwd=BASE64_DIR)
     p.wait()
     env.Execute(lambda *args, **kwargs: _touch(doneflag_file))
+
+# 7th patch - disable .platformio\packages\framework-arduinoteensy\libraries\Time\Time.h
+file_to_disable = join(TIME_DIR, "Time.h")
+if not isfile(file_to_disable):
+    rename (file_to_disable, file_to_disable + "___DISABLED")
