@@ -26,25 +26,6 @@ The EBTKS firmware source is located in a Git repository.  Since we have already
 
 Click on the "Clone" button and exit the GUI after the code has been populated.
 
-Now we must download the various libraries and packages used by the source code.  Launch VSCode and click on the "Open Folder" button.  Navigate to the folder where you have downloaded the F/W source and answer "Yes" to the dialog box about trusting the authors of the code.  VSCode will detect automatically that the folder you have selected is a PlatformIO project and proceed to download all the libraries and packages required by the project.  This may take some time – wait until any spinning wheels at the bottom of the VSCode screen have disappeared and then exit VSCode.
-
-### Applying Patches required by the EBTKS F/W
-
-The EBTKS firmware requires some patches to be applied to the files downloaded by VSCode in the previous step.  Patch files are provided in the "patches" folder of the project to automate this step.  They are written in the "unified diff" format popular on Unix platforms.  The Git for Windows software includes a utility than can read and apply patch files written in this format.
-
-To apply the patches, open a command line interpreter (e.g. cmd.exe) and run the following:
-```console
-"c:\Program Files\Git\usr\bin\patch.exe" %userprofile%\.platformio\packages\framework-arduinoteensy\cores\teensy4\usb.c %userprofile%\Documents\PlatformIO\Projects\EBTKS_FW\patches\usb.c.patch
-"c:\Program Files\Git\usr\bin\patch.exe" %userprofile%\.platformio\packages\framework-arduinoteensy\cores\teensy4\HardwareSerial.cpp %userprofile%\Documents\PlatformIO\Projects\EBTKS_FW\patches\HardwareSerial.cpp.patch
-"c:\Program Files\Git\usr\bin\patch.exe" %userprofile%\.platformio\packages\framework-arduinoteensy\cores\teensy4\imxrt1062_t41.ld %userprofile%\Documents\PlatformIO\Projects\EBTKS_FW\patches\imxrt1062_t41.ld.patch
-"c:\Program Files\Git\usr\bin\patch.exe" %userprofile%\.platformio\packages\framework-arduinoteensy\libraries\USBHost_t36\ehci.cpp %userprofile%\Documents\PlatformIO\Projects\EBTKS_FW\patches\ehci.cpp.patch
-"c:\Program Files\Git\usr\bin\patch.exe" %userprofile%\Documents\PlatformIO\Projects\EBTKS_FW\.pio\libdeps\teensy41\SdFat\src\SdFatConfig.h %userprofile%\Documents\PlatformIO\Projects\EBTKS_FW\patches\SdFatConfig.h.patch
-"c:\Program Files\Git\usr\bin\patch.exe" %userprofile%\Documents\PlatformIO\Projects\EBTKS_FW\.pio\libdeps\teensy41\Base64\src\Base64.cpp %userprofile%\Documents\PlatformIO\Projects\EBTKS_FW\patches\Base64.cpp.patch
-```
-Of course, if you have chosen a different directory in which to store the f/w source, modify the path names accordingly.
-
-The final patch required is to rename the file `%userprofile%\.platformio\packages\framework-arduinoteensy\libraries\Time\Time.h` to `%userprofile%\.platformio\packages\framework-arduinoteensy\libraries\Time\Time.h___DISABLED` to prevent it being included during the compile process.
-
 ### Building the EBTKS F/W
 
 We are now ready to build the EBTKS firmware.  Launch VSCode and click on the PlatformIO icon on the left hand side of the screen.  
