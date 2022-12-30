@@ -23,42 +23,14 @@ $ git clone https://github.com/Fliptron/T41_EBTKS_FW_1.0.git EBTKS_FW
 ```
 If you wish the code to be downloaded to a different location, modify the 2nd parameter of the "git clone" command accordingly.
 
-### Dummy F/W Build
+### Building the EBTKS F/W
 
-The EBTKS F/W will not build cleanly without applying some patches to certain files in the Teensy4.1 libraries and packages.  In order to download these, we perform a build of the EBTKS F/W project, fully expecting it to fail at this stage.  Execute the following commands:
+We are now ready to build the EBTKS firmware.  Change to the directory where you have cloned the Git repository and run the PlatformIO make process:
 ```console
 $ cd EBTKS_FW
 $ ~/.platformio/penv/bin/pio run
 ```
-and ignore the errors which result.  (Of course, if you have downloaded the source to a different directory, cd to that.)
-
-### Applying Patches required by the EBTKS F/W
-
-The EBTKS firmware requires some patches to be applied to the files downloaded in the previous step.  Patch files are provided in the "patches" folder of the project to automate this step.  To apply the patches, execute the following commands:
-```console
-$ pushd ~
-$ patch -p1 < EBTKS_FW/patches/usb.c.patch
-$ patch -p1 < EBTKS_FW/patches/ehci.cpp.patch
-$ patch -p1 < EBTKS_FW/patches/HardwareSerial.cpp.patch
-$ patch -p1 < EBTKS_FW/patches/imxrt1062_t41.ld.patch
-$ popd
-$ patch -p1 < patches/SdFatConfig.h.patch
-$ patch -p1 < patches/Base64.cpp.patch
-```
-If you have chosen a different directory in which to store the f/w source, modify the cd commands and the path to the patch files in the first four patch commands accordingly.
-
-The final patch required is to rename the file `~/.platformio/packages/framework-arduinoteensy/libraries/Time/Time.h` to `~/.platformio/packages/framework-arduinoteensy/libraries/Time/Time.h___DISABLED` to prevent it being included during the compile process.
-```console
-$ mv ~/.platformio/packages/framework-arduinoteensy/libraries/Time/Time.h ~/.platformio/packages/framework-arduinoteensy/libraries/Time/Time.h___DISABLED
-```
-
-### Building the EBTKS F/W
-
-We are now ready to build the EBTKS firmware.  Rerun
-```console
-$ ~/.platformio/penv/bin/pio run
-```
-and, with luck, the project will be successfully compiled and built.  The resulting firmware is in file `.pio/build/teensy41/firmware.hex` and can be loaded onto the Teensy board on the EBTKS using the procedure described [here](http://www.fliptronics.com/EBTKS/Updating_the_EBTKS_Firmware.html#updating-the-ebtks-firmware).
+With luck, the project will be successfully compiled and built.  The resulting firmware is in file `.pio/build/teensy41/firmware.hex` and can be loaded onto the Teensy board on the EBTKS using the procedure described [here](http://www.fliptronics.com/EBTKS/Updating_the_EBTKS_Firmware.html#updating-the-ebtks-firmware).
 
 ### Possible Gotchas
 
@@ -84,30 +56,9 @@ $ git clone https://github.com/Fliptron/T41_EBTKS_FW_1.0.git Documents/PlatformI
 ```
 By default, the VSCode PlatformIO extension stores projects in a directory `~/Documents/PlatformIO/Projects`.  If you wish the code to be downloaded to a different location, modify the 2nd parameter of the "git clone" command accordingly.
 
-Now we must download the various libraries and packages used by the source code.  Launch VSCode and click on the "Open Folder" button.  Navigate to the folder where you have downloaded the F/W source and answer "Yes" to the dialog box about trusting the authors of the code.  VSCode will detect automatically that the folder you have selected is a PlatformIO project and proceed to download all the libraries and packages required by the project.  This may take some time – wait until any spinning wheels at the bottom of the VSCode screen have disappeared and then exit VSCode.
-
-### Applying Patches required by the EBTKS F/W
-
-The EBTKS firmware requires some patches to be applied to the files downloaded in the previous step.  Patch files are provided in the "patches" folder of the project to automate this step.  To apply the patches, execute the following commands:
-```console
-$ patch -p1 < Documents/PlatformIO/Projects/EBTKS_FW/patches/usb.c.patch
-$ patch -p1 < Documents/PlatformIO/Projects/EBTKS_FW/patches/ehci.cpp.patch
-$ patch -p1 < Documents/PlatformIO/Projects/EBTKS_FW/patches/HardwareSerial.cpp.patch
-$ patch -p1 < Documents/PlatformIO/Projects/EBTKS_FW/patches/imxrt1062_t41.ld.patch
-$ cd Documents/PlatformIO/Projects/EBTKS_FW
-$ patch -p1 < patches/SdFatConfig.h.patch
-$ patch -p1 < patches/Base64.cpp.patch
-```
-If you have chosen a different directory in which to store the f/w source, modify the cd commands accordingly.
-
-The final patch required is to rename the file `~/.platformio/packages/framework-arduinoteensy/libraries/Time/Time.h` to `~/.platformio/packages/framework-arduinoteensy/libraries/Time/Time.h___DISABLED` to prevent it being included during the compile process.
-```console
-$ mv ~/.platformio/packages/framework-arduinoteensy/libraries/Time/Time.h ~/.platformio/packages/framework-arduinoteensy/libraries/Time/Time.h___DISABLED
-```
-
 ### Building the EBTKS F/W
 
-We are now ready to build the EBTKS firmware.  Launch VSCode and click on the PlatformIO icon on the left hand side of the screen.  This should display a menu of Project Tasks.  Click on the "Build" task and, with luck, the project will be successfully compiled and built.  The resulting firmware is in file `~/Documents/PlatformIO/Projects/EBTKS_FW/.pio/build/teensy41/firmware.hex` and can be loaded onto the Teensy board on the EBTKS using the procedure described [here](http://www.fliptronics.com/EBTKS/Updating_the_EBTKS_Firmware.html#updating-the-ebtks-firmware).
+We are now ready to build the EBTKS firmware.  Launch VSCode and click on the "Open Folder" button.  Navigate to the folder where you have downloaded the F/W source and answer "Yes" to the dialog box about trusting the authors of the code.  VSCode will detect automatically that the folder you have selected is a PlatformIO project and proceed to download all the libraries and packages required by the project.  This may take some time – wait until any spinning wheels at the bottom of the VSCode screen have disappeared.  Now click on the PlatformIO icon on the left hand side of the screen.  This should display a menu of Project Tasks.  Click on the "Build" task and, with luck, the project will be successfully compiled and built.  The resulting firmware is in file `~/Documents/PlatformIO/Projects/EBTKS_FW/.pio/build/teensy41/firmware.hex` and can be loaded onto the Teensy board on the EBTKS using the procedure described [here](http://www.fliptronics.com/EBTKS/Updating_the_EBTKS_Firmware.html#updating-the-ebtks-firmware).
 
 ### Possible Gotchas
 
