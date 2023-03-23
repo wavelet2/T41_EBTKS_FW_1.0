@@ -14,8 +14,8 @@ FRAMEWORK_DIR = env.PioPlatform().get_package_dir("framework-arduinoteensy")
 TEENSY4_DIR = join(FRAMEWORK_DIR, "cores", "teensy4")
 USBHOST_DIR = join(FRAMEWORK_DIR, "libraries", "USBHost_t36")
 TIME_DIR    = join(FRAMEWORK_DIR, "libraries", "Time")
-SDFAT_DIR   = join(getcwd(), ".pio", "libdeps", "teensy41", "SdFat", "src")
-BASE64_DIR  = join(getcwd(), ".pio", "libdeps", "teensy41", "Base64", "src")
+SDFAT_DIR   = join(FRAMEWORK_DIR, "libraries", "SdFat", "src")
+#BASE64_DIR  = join(getcwd(), ".pio", "libdeps", "teensy41", "Base64", "src")
 
 def _touch(path):
     with open(path, "w") as fp:
@@ -65,7 +65,7 @@ if not isfile(doneflag_file):
     p.wait()
     env.Execute(lambda *args, **kwargs: _touch(doneflag_file))
 
-# 5th patch - .pio\libdeps\teensy41\SdFat\src\SdFatConfig.h
+# 5th patch - .platformio\packages\framework-arduinoteensy\libraries\SdFat\src\SdFatConfig.h
 file_to_patch = join(SDFAT_DIR, "SdFatConfig.h")
 patch_file    = join(getcwd(), "patches", "SdFatConfig.h.patch")
 doneflag_file = join(SDFAT_DIR, "SdFatConfig.h.patch-done")
@@ -74,18 +74,3 @@ if not isfile(doneflag_file):
     p = subprocess.Popen(["python", PATCH_PROG, patch_file], cwd=SDFAT_DIR)
     p.wait()
     env.Execute(lambda *args, **kwargs: _touch(doneflag_file))
-
-# 6th patch - .pio\libdeps\teensy41\Base64\src\Base64.cpp
-file_to_patch = join(BASE64_DIR, "Base64.cpp")
-patch_file    = join(getcwd(), "patches", "Base64.cpp.patch")
-doneflag_file = join(BASE64_DIR, "Base64.cpp.patch-done")
-if not isfile(doneflag_file):
-    assert isfile(file_to_patch) and isfile(patch_file)
-    p = subprocess.Popen(["python", PATCH_PROG, patch_file], cwd=BASE64_DIR)
-    p.wait()
-    env.Execute(lambda *args, **kwargs: _touch(doneflag_file))
-
-# 7th patch - disable .platformio\packages\framework-arduinoteensy\libraries\Time\Time.h
-file_to_disable = join(TIME_DIR, "Time.h")
-if isfile(file_to_disable):
-    rename (file_to_disable, file_to_disable + "___DISABLED")

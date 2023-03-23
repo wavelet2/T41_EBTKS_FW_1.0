@@ -1,11 +1,11 @@
---- a/SdFatConfig.h	2021-09-17 12:19:23.585693020 +0100
-+++ b/SdFatConfig.h	2021-09-15 11:06:42.383964700 +0100
-@@ -75,7 +75,7 @@
+--- a/SdFatConfig.h	2023-03-23 21:13:10.735769348 +0000
++++ b/SdFatConfig.h	2023-03-23 21:16:44.786208144 +0000
+@@ -74,7 +74,7 @@
  #define SDFAT_FILE_TYPE 1
  #elif defined(__arm__)
  // ARM boards usually have plenty of memory
 -#define SDFAT_FILE_TYPE 3
 +#define SDFAT_FILE_TYPE 1	 // PMF and RB was 3, but caused library problems like can't find isReadOnly()
+ #define USE_UTF8_LONG_NAMES 1
  #else  // defined(__AVR__) && FLASHEND < 0X8000
  // All other boards.
- #define SDFAT_FILE_TYPE 1

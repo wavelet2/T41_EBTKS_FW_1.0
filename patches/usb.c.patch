@@ -1,6 +1,6 @@
---- a/usb.c	2020-07-01 12:30:19.000000000 +0100
-+++ b/usb.c	2021-09-17 12:29:10.548405500 +0100
-@@ -15,6 +15,23 @@
+--- a/usb.c	2023-03-23 20:50:32.040522238 +0000
++++ b/usb.c	2023-03-23 20:50:48.839448952 +0000
+@@ -16,6 +16,23 @@
  #include "avr/pgmspace.h"
  #include <string.h>
  #include "debug/printf.h"
@@ -24,7 +24,7 @@
  
  //#define LOG_SIZE  20
  //uint32_t transfer_log_head=0;
-@@ -349,14 +366,16 @@
+@@ -375,14 +392,16 @@
  
  void usb_start_sof_interrupts(int interface)
  {
@@ -43,7 +43,7 @@
  }
  
  void usb_stop_sof_interrupts(int interface)
-@@ -864,7 +883,8 @@
+@@ -935,7 +954,8 @@
  	if (endpoint->callback_function) {
  		transfer->status |= (1<<15);
  	}
@@ -53,7 +53,7 @@
  	//digitalWriteFast(1, HIGH);
  	// Executing A Transfer Descriptor, page 2468 (RT1060 manual, Rev 1, 12/2018)
  	transfer_t *last = endpoint->last_transfer;
-@@ -889,7 +909,8 @@
+@@ -964,7 +984,8 @@
  	endpoint->first_transfer = transfer;
  end:
  	endpoint->last_transfer = transfer;

@@ -1,6 +1,6 @@
---- a/HardwareSerial.cpp	2020-07-01 12:30:19.000000000 +0100
-+++ b/HardwareSerial.cpp	2021-09-15 11:01:38.846818600 +0100
-@@ -401,14 +401,16 @@
+--- a/HardwareSerial.cpp	2022-07-29 10:07:35.817390680 +0100
++++ b/HardwareSerial.cpp	2023-03-23 20:58:43.078348968 +0000
+@@ -412,14 +412,16 @@
  	uint32_t head, tail;
  
  	// WATER> 0 so IDLE involved may want to check if port has already has RX data to retrieve
@@ -19,7 +19,7 @@
  	return avail;
  }
  
-@@ -442,7 +444,8 @@
+@@ -459,7 +461,8 @@
  	head = rx_buffer_head_;
  	tail = rx_buffer_tail_;
  	if (head == tail) {
@@ -29,7 +29,7 @@
  		head = rx_buffer_head_;  // reread head to make sure no ISR happened
  		if (head == tail) {
  			// Still empty Now check for stuff in FIFO Queue.
-@@ -455,10 +458,12 @@
+@@ -472,10 +475,12 @@
  				rx_buffer_tail_ = 0; 
  				rx_buffer_[1] = c;
  			}
@@ -44,7 +44,7 @@
  
  	} 
  	if (++tail >= rx_buffer_total_size_) tail = 0;
-@@ -477,7 +482,8 @@
+@@ -494,7 +499,8 @@
  	head = rx_buffer_head_;
  	tail = rx_buffer_tail_;
  	if (head == tail) {
@@ -54,7 +54,7 @@
  		head = rx_buffer_head_;  // reread head to make sure no ISR happened
  		if (head == tail) {
  			// Still empty Now check for stuff in FIFO Queue.
-@@ -485,10 +491,12 @@
+@@ -502,10 +508,12 @@
  			if (port->WATER & 0x7000000) {
  				c = port->DATA & 0x3ff;		// Use only up to 10 bits of data
  			}
@@ -69,7 +69,7 @@
  
  	}
  	if (++tail >= rx_buffer_total_size_) tail = 0;
-@@ -553,11 +561,13 @@
+@@ -577,11 +585,13 @@
  	} else {
  		tx_buffer_storage_[head - tx_buffer_size_] = c;
  	}
@@ -85,3 +85,4 @@
  	//digitalWrite(3, LOW);
  	return 1;
  }
+
